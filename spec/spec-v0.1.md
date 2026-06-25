@@ -130,18 +130,18 @@ abbreviations for common verbs. Keep full file paths and technical terms.
 
 ### 4.5 L2 — Structured
 
-Structured syntax with delimiters. Implicit context (if file is in
+Structured syntax with space-separated fields. Implicit context (if file is in
 context window, reference by short ID). Abbreviated verbs from L1
 dictionary.
 
 ```
-2? rv|src/main.py|42-89|bug
-2! src/main.py:42-89|bug:2|SQL inj L112,MD5 L134|fix pre-mrg
-2~ build:pass|test:green|status:rdy
+2? rv src/main.py 42-89 bug
+2! src/main.py:42-89 bug:2 SQL inj L112,MD5 L134 fix pre-mrg
+2~ build:pass test:green status:rdy
 ```
 
 **L2 Structural Rules:**
-- `|` separates fields
+- Fields are space-separated
 - `:` separates key from value within a field
 - `,` separates list items
 - `L<n>` means "line n"
@@ -356,7 +356,7 @@ savings(M, L) = 1 - tokens(M, L) / tokens(M, L0)
 
 Expected savings ranges (from token testing):
 - L1: 30-40% (drop filler + abbreviate verbs)
-- L2: 50-60% (structured delimiters + implicit context)
+- L2: 50-60% (space-separated fields + implicit context)
 - L3: 65-75% (single-char verbs + implicit everything)
 
 ### 6.3 Fidelity-vs-Savings Tradeoff
@@ -411,7 +411,7 @@ replaces mechanical compression at L2-L3.
 The compressor builds a prompt that instructs the LLM to compress an
 English message to LLMinal L2 or L3 format. The prompt contains:
 
-1. **Format rules** for the target level (L2: `|` delimiters, `:` key-value,
+1. **Format rules** for the target level (L2: space-separated fields, `:` key-value,
    `L<n>` line refs, `@f`/`@c<n>` context refs; L3: space-separated tokens,
    single-char verbs `R/I/F/T/D/M`, nouns `B/E/U/P/Y`, `>` for "requires")
 2. **Elision policy** (see below)
@@ -647,7 +647,7 @@ routing metadata, then reads the body as standard LLMinal.
 
 Example:
 ```
-2? SAEAAQACBfIAAQAA3q2+7w==:rv|src/main.py|42-89|bug
+2? SAEAAQACBfIAAQAA3q2+7w==:rv src/main.py 42-89 bug
    └── compact enc ────────┘  └── LLMinal L2 body ──┘
 ```
 
@@ -692,9 +692,9 @@ When multiple agents send status updates, an orchestrator can aggregate
 without seeing individual reports:
 
 ```
-Agent 1: 2~ <enc_header>:build:pass|test:green
-Agent 2: 2~ <enc_header>:build:pass|test:fail
-Agent 3: 2~ <enc_header>:build:fail|test:skip
+Agent 1: 2~ <enc_header>:build:pass test:green
+Agent 2: 2~ <enc_header>:build:pass test:fail
+Agent 3: 2~ <enc_header>:build:fail test:skip
 
 Orchestrator (HE aggregation):
   - Count of "build:fail" → 1 (computed on encrypted priority fields)
@@ -784,7 +784,7 @@ can be wrapped in HELLMinal:
 ```
 0? <enc_header>:Please review the code in main.py...
 1? <enc_header>:rv code main.py rpt bugs find.
-2? <enc_header>:rv|code|main.py|42-89|bug
+2? <enc_header>:rv src/main.py 42-89 bug
 3? <enc_header>:r code main.py L 42 89 b
 ```
 

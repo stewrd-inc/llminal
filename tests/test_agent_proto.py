@@ -210,7 +210,7 @@ def make_semantic_stub_llm(level: int):
             kept = [w for w in words if w.strip(".,!?;:").lower() not in DROP_WORDS]
 
         if level == 2:
-            return "|".join(kept) if kept else msg_text
+            return " ".join(kept) if kept else msg_text
         return " ".join(kept) if kept else msg_text
 
     return stub
