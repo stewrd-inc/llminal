@@ -351,7 +351,7 @@ def encrypt_agent_report(
 
 def decrypt_aggregate(
     private_key: PaillierPrivateKey,
-    aggregate_ct: PaillierCiphertext,
+    aggregate: AgentEncryptedReport,
     n_agents: int,
     confidence_scale: int = 100,
 ) -> tuple[int, float]:
@@ -359,11 +359,19 @@ def decrypt_aggregate(
 
     Returns (total_priority, avg_confidence).
     """
-    total = private_key.decrypt(aggregate_ct.priority_ct)
+    total = private_key.decrypt(aggregate.priority_ct)
     # confidence aggregate is a sum of scaled ints → divide by n & scale
-    conf_sum = private_key.decrypt(aggregate_ct.confidence_ct)
+    conf_sum = private_key.decrypt(aggregate.confidence_ct)
     avg_conf = conf_sum / (n_agents * confidence_scale)
     return total, avg_conf
+
+
+def decrypt_priority_aggregate(
+    private_key: PaillierPrivateKey,
+    priority_ct: PaillierCiphertext,
+) -> int:
+    """Decrypt a single priority aggregate ciphertext."""
+    return private_key.decrypt(priority_ct)
 
 
 # ============================================================
