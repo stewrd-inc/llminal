@@ -126,11 +126,16 @@ abbreviations for common verbs. Keep full file paths and technical terms.
 | issue | iss | noun |
 | security | sec | noun |
 | performance | perf | noun |
+| agent_pair | apair | noun |
+| protocol | proto | noun |
+| fingerprint | fp | noun |
+| harness | harn | noun |
 | before | pre | modifier |
 | after | post | modifier |
 | ready | rdy | adjective |
 | passing | pass | adjective |
 | failing | fail | adjective |
+| green | grn | adjective |
 
 ### 4.5 L2 — Structured
 

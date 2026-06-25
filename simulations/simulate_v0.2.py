@@ -242,6 +242,9 @@ SEED_DICTIONARY = {
     # nouns
     "bug": "bug", "error": "err", "warning": "warn", "issue": "iss",
     "security": "sec", "performance": "perf",
+    # agent-to-agent meta-concepts (v0.4, from round-1 dogfooding)
+    "agent_pair": "apair", "protocol": "proto", "fingerprint": "fp",
+    "harness": "harn",
     # context
     "lines": "L", "file": "f", "function": "fn", "class": "cls",
     "module": "mod", "variable": "var", "parameter": "param",
@@ -249,6 +252,7 @@ SEED_DICTIONARY = {
     "before": "pre", "after": "post",
     # adjectives
     "ready": "rdy", "passing": "pass", "failing": "fail",
+    "green": "grn",
 }
 
 # L3 dictionary — FIXED: no collisions (Lamport #7, Hamilton F4, Worf THREAT-09)
