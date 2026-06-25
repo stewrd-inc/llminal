@@ -149,9 +149,22 @@ dictionary.
 - Fields are space-separated
 - `:` separates key from value within a field
 - `,` separates list items
+- **Repeated keys are ambiguous and MUST NOT be used for a multi-value field.**
+  When one key has multiple values, write them as a comma-separated list
+  under that key once: `action:tst,rpt,suggest`.
+- Repeated-key form `action:tst action:rpt action:suggest` is **discouraged**;
+  a receiver cannot tell whether the intent is "three separate actions" or
+  "one action with three parts" without extra context.
 - `L<n>` means "line n"
 - `@f` means "the file in context" (implicit reference)
 - `@c<n>` means "context item n" (from shared context)
+
+**L2 List Grammar Example:**
+
+```
+OK:  action:tst,rpt,suggest
+BAD: action:tst action:rpt action:suggest   (ambiguous — discouraged)
+```
 
 **L2 Compliance Note:**
 Compressors (mechanical or LLM-assisted) SHOULD downgrade an L2 request that would violate the 30-token minimum to L1, or emit a warning that L2 was requested for a too-short message. The protocol MUST still produce a valid LLMinal message; it MUST NOT silently emit an L2 message that the specification forbids.
