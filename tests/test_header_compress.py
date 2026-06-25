@@ -38,9 +38,10 @@ from header_compress import (
 # The file is named "simulate_v0.2.py" (with a dot), so we load it via
 # importlib rather than a normal `import` statement.
 import importlib.util
+from pathlib import Path
 _spec = importlib.util.spec_from_file_location(
     "simulate_v02",
-    "/home/claw/llminal/simulations/simulate_v0.2.py",
+    Path(__file__).parent.parent / "simulations" / "simulate_v0.2.py",
 )
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
