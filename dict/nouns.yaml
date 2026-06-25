@@ -43,3 +43,44 @@
   level: 1
   token_cost_gpt4: 1
   token_cost_mistral: 2
+
+# Agent-to-agent meta-concepts (v0.4, from round-1 dogfooding)
+
+- abbreviated: apair
+  expanded: agent_pair
+  category: noun
+  level: 1
+  token_cost_gpt4: 2
+  token_cost_mistral: 3
+  note: the two agents in an LLMinal exchange (requester + responder)
+
+- abbreviated: proto
+  expanded: protocol
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: fp
+  expanded: fingerprint
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+  note: §4.8 context fingerprint
+
+- abbreviated: harn
+  expanded: harness
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+  note: test runner / test execution environment
+
+- abbreviated: grn
+  expanded: green
+  category: adjective
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+  note: all tests passing (status messages)
