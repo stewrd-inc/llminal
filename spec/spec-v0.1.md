@@ -31,9 +31,13 @@ syntax, and abbreviation — without losing semantic fidelity.
 | Level | Name | Token Savings (est.) | When to Use |
 |-------|------|---------------------|-------------|
 | L0 | Full English | 0% (baseline) | New agent pairs, high-stakes, uncertain fidelity |
-| L1 | Abbreviated | 30–40% | Default for established agent pairs |
-| L2 | Structured | 50–60% | Trusted pairs on routine tasks |
-| L3 | Ultra-compressed | 65–75% | Trusted pairs, shared context, routine tasks |
+| L1 | Abbreviated | 30–46% | Default for established agent pairs; also best for short messages (<30 L0 tokens) and acknowledgments |
+| L2 | Structured | 28–50% | Trusted pairs, **longer messages (≥30 L0 tokens)**; `|` delimiter overhead makes L2 *less* efficient than L1/L3 for short messages |
+| L3 | Ultra-compressed | 43–62% | Trusted pairs, shared context, routine tasks; competitive with L1 on short messages due to no delimiters |
+
+> **Message-length guidance (v0.1 empirical finding):** For messages under ~30 L0 tokens, L1 or L3 typically outperform L2 because each `|` delimiter costs 1 token in GPT-4 tokenizers, eroding the savings. Use L2 when message structure is complex enough that delimiter-separated fields reduce ambiguity AND the message is long enough to amortize the delimiter cost. The cost-awareness gate in §7.2.1 enforces this automatically for LLM-assisted compression.
+>
+> **Token savings ranges above reflect v0.3 empirical results** (stub LLM). Real LLM compression is expected to reach the upper bound of each range. See §7.2.1 for the LLM-assisted compression protocol.
 
 ### Level declaration
 
