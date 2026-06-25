@@ -16,11 +16,13 @@ Validates:
 Run: python3 test_paillier.py
 """
 
+import os
 import sys
 import time
 
-# Allow running from the llminal directory directly.
-sys.path.insert(0, ".")
+# Allow running from any directory — resolve paths relative to this file.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from paillier_he import (
     PaillierCiphertext,

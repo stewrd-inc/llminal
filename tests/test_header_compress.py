@@ -10,12 +10,13 @@ Does four things:
   4. Prints a side-by-side comparison table: old vs new header at L0-L3.
 
 Run:
-    /home/claw/.hermes/hermes-agent/venv/bin/python test_header_compress.py
+    python3 test_header_compress.py
 """
 import os
 import sys
 
-# Make sure we can import the sibling module.
+# Make sure we can import sibling modules and src/ modules from any CWD.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from header_compress import (
@@ -40,7 +41,7 @@ from header_compress import (
 import importlib.util
 _spec = importlib.util.spec_from_file_location(
     "simulate_v02",
-    "/home/claw/llminal/simulations/simulate_v0.2.py",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "simulations", "simulate_v0.2.py"),
 )
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)

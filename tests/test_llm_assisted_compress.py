@@ -21,7 +21,8 @@ import re
 import sys
 import os
 
-# Ensure we can import from the llminal directory
+# Ensure we can import from the llminal src/ and tests/ dirs from any CWD.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 from llm_assisted_compress import (
