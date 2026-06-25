@@ -34,7 +34,9 @@ from llm_assisted_compress import (
     check_load_bearing_preservation,
     ELISION_DROP,
     ELISION_KEEP,
+    MIN_MESSAGE_TOKENS_FOR_LLM,
 )
+
 
 # Access the v0.2 module's symbols through the alias loaded by
 # llm_assisted_compress (which uses importlib for the dotted filename).
@@ -615,6 +617,60 @@ def test_llm_output_sanitization():
     return all_pass
 
 
+def test_l2_length_gate():
+    """Test that L2 requests for short messages are downgraded to L1."""
+    print("\n" + "=" * 80)
+    print("TEST 9: L2 Length Gate (§4.5 MUST rule)")
+    print("=" * 80)
+
+    comp = LLMAssistedCompressor(llm_call=make_semantic_stub_llm(2))
+
+    short_msg = "Please review src/main.py for bugs."
+    long_msg = (
+        "Please review the code changes in src/main.py, specifically lines 42 "
+        "through 89. Look for bugs and tell me if it is ready to merge."
+    )
+
+    # Short message at L2 must be downgraded to L1
+    short_result = comp.compress(short_msg, 2, "?")
+    short_reason = None
+    if hasattr(comp, "compress_with_fallback_log"):
+        _, short_reason = comp.compress_with_fallback_log(short_msg, 2, "?")
+
+    # Long message at L2 may stay L2 (it passes the length gate; cost gate
+    # decides whether the LLM is actually invoked, but level must remain L2).
+    long_result = comp.compress(long_msg, 2, "?")
+
+    all_pass = True
+
+    if short_result.level != 1:
+        print(f"  [FAIL] short L2 request downgraded to L1 (got L{short_result.level})")
+        all_pass = False
+    else:
+        print(f"  [PASS] short L2 request downgraded to L1")
+
+    if long_result.level != 2:
+        print(f"  [FAIL] long L2 request stayed L2 (got L{long_result.level})")
+        all_pass = False
+    else:
+        print(f"  [PASS] long L2 request stayed L2")
+
+    if short_reason and "L2 length gate" not in short_reason:
+        print(f"  [FAIL] fallback reason does not cite L2 length gate: {short_reason}")
+        all_pass = False
+    elif short_reason:
+        print(f"  [PASS] fallback reason cites L2 length gate: {short_reason}")
+
+    # Explicitly verify the L2 body was not produced for the short message.
+    l0_tokens = comp.counter.count(f"0? {short_msg}", comp.model)
+    print(f"\n  Short message L0 tokens: {l0_tokens} (< {MIN_MESSAGE_TOKENS_FOR_LLM})")
+    print(f"  Short result level: {short_result.level}, body: {short_result.body}")
+    print(f"  Long result level: {long_result.level}, body: {long_result.body[:50]}")
+
+    print(f"\n  Result: {'ALL PASS' if all_pass else 'SOME FAILED'}")
+    return all_pass
+
+
 # ============================================================
 # Main
 # ============================================================
@@ -634,6 +690,7 @@ def main():
     results.append(("Cost-Aware Fallback", test_cost_aware_fallback()))
     results.append(("Broadcast Amortization", test_broadcast_amortization()))
     results.append(("Output Sanitization", test_llm_output_sanitization()))
+    results.append(("L2 Length Gate", test_l2_length_gate()))
 
     print("\n" + "=" * 80)
     print("FINAL SUMMARY")

@@ -35,9 +35,9 @@ syntax, and abbreviation — without losing semantic fidelity.
 | L2 | Structured | 28–50% | Trusted pairs, **longer messages (≥30 L0 tokens)**; `|` delimiter overhead makes L2 *less* efficient than L1/L3 for short messages |
 | L3 | Ultra-compressed | 43–62% | Trusted pairs, shared context, routine tasks; competitive with L1 on short messages due to no delimiters |
 
-> **Message-length guidance (v0.1 empirical finding):** For messages under ~30 L0 tokens, L1 or L3 typically outperform L2 because each `|` delimiter costs 1 token in GPT-4 tokenizers, eroding the savings. Use L2 when message structure is complex enough that delimiter-separated fields reduce ambiguity AND the message is long enough to amortize the delimiter cost. The cost-awareness gate in §7.2.1 enforces this automatically for LLM-assisted compression.
+> **Message-length guidance (v0.1 empirical finding):** For messages under ~30 L0 tokens, L1 or L3 typically outperform L2 because each space-delimited field costs 1 token in GPT-4 tokenizers, eroding the savings. Use L2 when message structure is complex enough that delimiter-separated fields reduce ambiguity AND the message is long enough to amortize the delimiter cost. The cost-awareness gate in §7.2.1 enforces this automatically for LLM-assisted compression; the L2 structural rule in §4.5 applies the same constraint to hand-written and mechanical L2 messages.
 >
-> **Token savings ranges above reflect v0.3 empirical results** (stub LLM). Real LLM compression is expected to reach the upper bound of each range. See §7.2.1 for the LLM-assisted compression protocol.
+> **Token savings ranges above reflect v0.3 empirical results** (stub LLM). Real LLM compression is expected to reach the upper bound of each range. See §7.2.1 for the LLM-assisted compression protocol and §4.5 for the L2 length rule.
 
 ### Level declaration
 
@@ -145,12 +145,16 @@ dictionary.
 ```
 
 **L2 Structural Rules:**
+- L2 MUST NOT be used for messages under 30 L0 tokens. Use L1 or L3 instead. The cost-awareness gate in §7.2.1 enforces this for LLM-assisted compression; this rule applies the same constraint to hand-written and mechanical L2 messages. See §3 for the empirical message-length guidance.
 - Fields are space-separated
 - `:` separates key from value within a field
 - `,` separates list items
 - `L<n>` means "line n"
 - `@f` means "the file in context" (implicit reference)
 - `@c<n>` means "context item n" (from shared context)
+
+**L2 Compliance Note:**
+Compressors (mechanical or LLM-assisted) SHOULD downgrade an L2 request that would violate the 30-token minimum to L1, or emit a warning that L2 was requested for a too-short message. The protocol MUST still produce a valid LLMinal message; it MUST NOT silently emit an L2 message that the specification forbids.
 
 ### 4.6 L3 — Ultra-compressed
 

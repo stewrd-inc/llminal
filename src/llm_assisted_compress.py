@@ -387,6 +387,15 @@ class LLMAssistedCompressor:
         if level not in (2, 3):
             raise ValueError(f"Invalid level: {level}")
 
+        # §4.5 — L2 length gate: L2 MUST NOT be used for messages under
+        # MIN_MESSAGE_TOKENS_FOR_LLM L0 tokens. Downgrade to L1 silently but
+        # safely; the returned level makes the downgrade observable.
+        l0_tokens = self.counter.count(f"0{msg_type} {english}", self.model)
+        if level == 2 and l0_tokens < MIN_MESSAGE_TOKENS_FOR_LLM:
+            return self.mechanical.compress(
+                english, 1, msg_type, sender, receiver, context_ref
+            )
+
         # Cost-awareness gate
         if self.cost_aware:
             decision = should_use_llm_compression(
@@ -452,6 +461,20 @@ class LLMAssistedCompressor:
                 english, level, msg_type, sender, receiver, context_ref
             )
             return msg, f"mechanical L{level} (deterministic, no LLM needed)"
+
+        if level not in (2, 3):
+            raise ValueError(f"Invalid level: {level}")
+
+        # §4.5 — L2 length gate: hard floor on hand-written / mechanical L2.
+        l0_tokens = self.counter.count(f"0{msg_type} {english}", self.model)
+        if level == 2 and l0_tokens < MIN_MESSAGE_TOKENS_FOR_LLM:
+            msg = self.mechanical.compress(
+                english, 1, msg_type, sender, receiver, context_ref
+            )
+            return msg, (
+                f"mechanical L1 fallback: L2 length gate ("
+                f"{l0_tokens} tok < {MIN_MESSAGE_TOKENS_FOR_LLM} threshold)"
+            )
 
         decision = should_use_llm_compression(
             english, level, msg_type, shared_context,
