@@ -20,8 +20,14 @@ Run: python3 test_auth.py
 from __future__ import annotations
 
 import copy
+import os
+import sys
 import time
 import traceback
+
+# Allow running from any directory — resolve paths relative to this file.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import auth
 from auth import (
