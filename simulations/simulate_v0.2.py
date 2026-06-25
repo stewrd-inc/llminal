@@ -374,18 +374,14 @@ class LLMinalCompressor:
         return " ".join(result) if result else text
 
     def _compress_l2(self, text: str) -> str:
-        """L2: Structured with delimiters, drop non-essential words."""
+        """L2: Structured with space-separated fields, drop non-essential words."""
         l1 = self._compress_l1(text)
         words = l1.split()
         kept = [w for w in words if w.lower().strip(".,!?;:") not in L2_DROP_WORDS]
         if not kept:
             kept = words  # don't produce empty (Hamilton F3 fix)
 
-        if len(kept) >= 4:
-            head = "|".join(kept[:4])
-            tail = " ".join(kept[4:])
-            return f"{head}|{tail}" if tail else head
-        return "|".join(kept) if kept else l1
+        return " ".join(kept) if kept else l1
 
     def _compress_l3(self, text: str) -> str:
         """L3: Ultra-compressed. FIXED: no collisions, no silent path destruction.
@@ -436,7 +432,8 @@ class LLMinalCompressor:
                     result.append(word)
             return " ".join(result)
         elif msg.level == 2:
-            text = msg.body.replace("|", " ")
+            # L2 is already space-separated; decompress via the L1 helper.
+            text = msg.body
             return self._decompress_l1_text(text)
         elif msg.level == 3:
             words = msg.body.split()

@@ -235,12 +235,12 @@ def test_downgrade_enforcement():
     alice = generate_keypair("alice")
     bob = generate_keypair("bob")
     session = make_session(alice, bob)
-    msg = fresh_message(level=2, body="rv|src/main.py|42-89|bug")
+    msg = fresh_message(level=2, body="rv src/main.py 42-89 bug")
     sign_message(msg, alice, session)
 
     # Tamper → enforce_verification returns None for safe_msg
     tampered = copy.copy(msg)
-    tampered.body = "rv|src/main.py|42-89|revert"
+    tampered.body = "rv src/main.py 42-89 revert"
     result, safe_msg = enforce_verification(tampered, session)
     check("verification result is False", not result.valid)
     check("safe_msg is None on failure", safe_msg is None)

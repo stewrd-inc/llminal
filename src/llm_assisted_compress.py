@@ -110,7 +110,7 @@ L2 structured format.
 
 L2 FORMAT RULES:
 - Output ONLY the L2 body (no level prefix, no type char — the caller adds those).
-- Use `|` to separate fields, `:` for key:value within a field, `,` for list items.
+- Fields are space-separated; use `:` for key:value within a field and `,` for list items.
 - Use `L<n>` for "line n", `@f` for "the file in context", `@c<n>` for context item n.
 - Use L1 abbreviations from the seed dictionary where applicable (rv, impl, fix, tst, dep, mrg, bug, err, rdy, pass, fail).
 
@@ -523,8 +523,9 @@ def _sanitize_llm_output(text: str, level: int) -> str:
         # Prefer lines with LLMinal structure markers
         def llminal_score(line: str) -> int:
             score = 0
-            if "|" in line:
-                score += 10  # L2 delimiter
+            # L2 structural markers: key:value fields, line refs, context refs
+            if re.search(r"\b\w+:\w+\b|L\d+|@f|@c\d", line):
+                score += 6
             if re.search(r"src/|\.py|@f|@c\d", line):
                 score += 5   # file paths / context refs
             if re.search(r"\bL\d+\b|\b\d{2,}\b", line):
@@ -533,9 +534,10 @@ def _sanitize_llm_output(text: str, level: int) -> str:
                 score += 2   # L3 single-char verbs
             # Penalize natural-language explanation lines
             word_count = len(line.split())
-            if word_count > 3 and not any(c in line for c in "|@"):
+            if word_count > 3 and not re.search(r"src/|\.py|@f|@c\d|L\d+|\b[RIFBTDMBEUPY]\b", line):
                 score -= 2
             return score
+
         text = max(lines, key=llminal_score)
     elif lines:
         text = lines[0]
@@ -600,7 +602,7 @@ if __name__ == "__main__":
             r"(?:src/)?\w+\.py|L?\d+|SQL\s*inj|MD5|null\s*pointer|"
             r"bug|err|fix|pass|fail|rdy|ready|green|build|test|deploy|"
             r"rv|impl|tst|dep|mrg|R|I|F|T|D|M|B|E|U|P|Y|@f|@c\d+|:"
-            r"|\||>|,\s*",
+            r"|>|,\s*",
             re.IGNORECASE,
         )
         tokens = msg_line.split()

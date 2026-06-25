@@ -179,12 +179,12 @@ class Agent:
         """Return a LLMinal-format ack body: 1~ or 2~ line."""
         if final_level <= 1:
             return f"1~ ack: understood{extra}"
-        return f"2~ ack|ok{extra}"
+        return f"2~ ack ok{extra}"
 
     def _ack_english(self, received_english: str, final_level: int) -> str:
         if final_level <= 1:
             return "Acknowledged."
-        return "ack|ok"
+        return "ack ok"
 
 
 # ---------------------------------------------------------------------------
@@ -236,7 +236,7 @@ if __name__ == "__main__":
     ctx = ContextState.from_items(["src/main.py:42-89"])
 
     def stub_llm(prompt: str) -> str:
-        return "rv|src/main.py|42-89|bug|rdy|mrg"
+        return "rv src/main.py 42-89 bug rdy mrg"
 
     comp = LLMAssistedCompressor(llm_call=stub_llm, cost_aware=False)
     alice = Agent(alice_kp, session, comp, ctx)

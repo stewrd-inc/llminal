@@ -52,7 +52,7 @@ def make_semantic_stub_llm(level: int):
     and drops everything else. It's not as good as a real LLM but it
     demonstrates the mechanism and achieves significant savings.
 
-    For L2, it uses | delimiters. For L3, it uses single-char verbs.
+    For L2, it uses space-separated fields. For L3, it uses single-char verbs.
     """
 
     # Load-bearing token patterns - these are ALWAYS kept
@@ -195,9 +195,8 @@ def make_semantic_stub_llm(level: int):
             kept = [w for w in words if w.strip(".,!?;:").lower() not in DROP_WORDS]
 
         if level == 2:
-            # L2: use | delimiters for structure
-            # Group into fields: verb|path|lines|subject
-            return "|".join(kept) if kept else msg_text
+            # L2: space-separated fields
+            return " ".join(kept) if kept else msg_text
         else:
             # L3: space-separated
             return " ".join(kept) if kept else msg_text
@@ -594,12 +593,12 @@ def test_llm_output_sanitization():
     from llm_assisted_compress import _sanitize_llm_output
 
     cases = [
-        ("L2 body: rv|src/main.py|42-89|bug", "rv|src/main.py|42-89|bug"),
-        ("Here is the L2 body: rv|src/main.py|42-89|bug", "rv|src/main.py|42-89|bug"),
-        ("Output: rv|src/main.py|42-89|bug", "rv|src/main.py|42-89|bug"),
-        ("```\nrv|src/main.py|42-89|bug\n```", "rv|src/main.py|42-89|bug"),
-        ("rv|src/main.py|42-89|bug", "rv|src/main.py|42-89|bug"),
-        ("This is the compressed result.\nrv|src/main.py|42-89|bug", "rv|src/main.py|42-89|bug"),
+        ("L2 body: rv src/main.py 42-89 bug", "rv src/main.py 42-89 bug"),
+        ("Here is the L2 body: rv src/main.py 42-89 bug", "rv src/main.py 42-89 bug"),
+        ("Output: rv src/main.py 42-89 bug", "rv src/main.py 42-89 bug"),
+        ("```\nrv src/main.py 42-89 bug\n```", "rv src/main.py 42-89 bug"),
+        ("rv src/main.py 42-89 bug", "rv src/main.py 42-89 bug"),
+        ("This is the compressed result.\nrv src/main.py 42-89 bug", "rv src/main.py 42-89 bug"),
     ]
 
     all_pass = True

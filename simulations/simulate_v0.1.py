@@ -262,7 +262,7 @@ class LLMinalCompressor:
         return " ".join(result)
 
     def _compress_l2(self, text: str) -> str:
-        """L2: Structured with delimiters, drop non-essential words, implicit context."""
+        """L2: Structured with space-separated fields, drop non-essential words, implicit context."""
         # L1 compress first
         l1 = self._compress_l1(text)
         words = l1.split()
@@ -272,13 +272,13 @@ class LLMinalCompressor:
                       "new", "old", "specifically", "particularly",
                       "around", "about", "through", "between"}
         kept = [w for w in words if w.lower().strip(".,!?;:") not in drop_words]
-        # Apply structural delimiters: first 4 meaningful tokens get pipe-separated
+        # Apply structural delimiters: first 4 meaningful tokens get separated
         # Remaining tokens stay space-separated as the payload
         if len(kept) >= 4:
-            head = "|".join(kept[:4])
+            head = " ".join(kept[:4])
             tail = " ".join(kept[4:])
-            return f"{head}|{tail}" if tail else head
-        return "|".join(kept)
+            return f"{head} {tail}" if tail else head
+        return " ".join(kept)
 
     def _compress_l3(self, text: str) -> str:
         """L3: Ultra-compressed, single-char verbs, strip paths, drop all non-essential."""
@@ -328,8 +328,8 @@ class LLMinalCompressor:
                     result.append(word)
             return " ".join(result)
         elif msg.level == 2:
-            # Remove structural delimiters
-            text = msg.body.replace("|", " ")
+            # L2 is now space-separated
+            text = msg.body
             return self.decompress(LLMinalMessage(
                 level=1, msg_type=msg.msg_type, body=text,
                 sender_id=msg.sender_id, receiver_id=msg.receiver_id,
