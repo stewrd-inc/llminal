@@ -42,7 +42,7 @@ import importlib.util as _ilu
 import os as _os
 _spec = _ilu.spec_from_file_location(
     "simulate_v0_2",
-    _os.path.join(_os.path.dirname(__file__), "simulate_v0.2.py"),
+    _os.path.join(_os.path.dirname(__file__), "..", "simulations", "simulate_v0.2.py"),
 )
 _sim = _ilu.module_from_spec(_spec)
 _spec.loader.exec_module(_sim)

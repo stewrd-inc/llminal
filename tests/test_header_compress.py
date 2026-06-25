@@ -40,7 +40,7 @@ from header_compress import (
 import importlib.util
 _spec = importlib.util.spec_from_file_location(
     "simulate_v02",
-    "/home/claw/llminal/simulate_v0.2.py",
+    "/home/claw/llminal/simulations/simulate_v0.2.py",
 )
 _mod = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(_mod)
