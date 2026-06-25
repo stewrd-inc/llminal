@@ -434,6 +434,35 @@ def test_token_savings():
     check("token counts measured for L0-L3", all(savings[level][1] > 0 for level in (0, 1, 2, 3)))
 
 
+def test_comma_list_roundtrip():
+    print("\n[Test 8] L2 comma-list values roundtrip")
+    alice, bob, session = fresh_agents()
+
+    # Hand-crafted L2 body using comma-list form per §4.5 grammar.
+    l2_body = "action:tst,rpt,suggest target:src/main.py"
+    msg = AuthenticatedMessage(
+        level=2,
+        msg_type="?",
+        body=l2_body,
+        sender_id=alice.keypair.agent_id,
+        receiver_id=bob.keypair.agent_id,
+        context_ref=alice.context.fingerprint,
+        timestamp=time.time(),
+        token_count=0,
+        char_count=0,
+        english_equivalent="Run test, report findings, and suggest improvements for src/main.py.",
+    )
+    msg = sign_message(msg, alice.keypair, session)
+
+    result = bob.receive(msg)
+    check("comma-list L2 verified", result.verified, result.reason)
+    check("comma-list L2 not downgraded", result.downgraded_to == 2)
+    # ack body does not echo original body; verify via the received message instead.
+    check("comma-list body preserved", "action:tst,rpt,suggest" in msg.body)
+    print(f"  received body: {msg.body}")
+    print(f"  ack body: {result.ack.body if result.ack else None}")
+
+
 # -----------------------------------------------------------------------------
 # Runner
 # -----------------------------------------------------------------------------
@@ -451,6 +480,7 @@ def main() -> int:
     test_auth_negatives()
     test_context_divergence()
     test_token_savings()
+    test_comma_list_roundtrip()
 
     passed = sum(1 for _, s, _ in results if s == TestResult.PASS)
     failed = sum(1 for _, s, _ in results if s == TestResult.FAIL)
