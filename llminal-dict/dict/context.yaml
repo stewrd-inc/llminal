@@ -1,0 +1,52 @@
+# Context abbreviations
+# References to code structure and context items.
+
+- abbreviated: L
+  expanded: lines
+  category: context
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+  note: used as L42-89 for line ranges
+
+- abbreviated: f
+  expanded: file
+  category: context
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- abbreviated: fn
+  expanded: function
+  category: context
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- abbreviated: cls
+  expanded: class
+  category: context
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- abbreviated: mod
+  expanded: module
+  category: context
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: var
+  expanded: variable
+  category: context
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- abbreviated: param
+  expanded: parameter
+  category: context
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1

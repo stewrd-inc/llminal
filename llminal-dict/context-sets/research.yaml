@@ -1,0 +1,25 @@
+# Context set: Research / Analysis
+
+task_classes:
+  - research
+
+common_abbreviations:
+  - abbrev: lit
+    expanded: literature
+    context_specific: true
+  - abbrev: ref
+    expanded: reference
+    context_specific: true
+  - abbrev: meth
+    expanded: methodology
+    context_specific: true
+
+research_fields:
+  - key_findings
+  - recommendations
+  - sources
+  - limitations
+
+context_fingerprint_items:
+  - "research_question"
+  - "source_corpus"

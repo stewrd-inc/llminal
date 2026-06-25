@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Dictionary Entry",
+  "description": "A single abbreviation entry in the LLMinal shared dictionary",
+  "type": "object",
+  "required": ["abbreviated", "expanded", "category", "level"],
+  "properties": {
+    "abbreviated": {
+      "type": "string",
+      "description": "The abbreviated form (e.g., 'rv')"
+    },
+    "expanded": {
+      "type": "string",
+      "description": "The expanded form (e.g., 'review')"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["verb", "noun", "context", "modifier", "adjective"],
+      "description": "Semantic category of the entry"
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3,
+      "description": "Minimum compression level where this entry is used"
+    },
+    "token_cost_gpt4": {
+      "type": "integer",
+      "description": "Token cost in GPT-4/o200k tokenizer"
+    },
+    "token_cost_mistral": {
+      "type": "integer",
+      "description": "Token cost in Mistral/SentencePiece tokenizer"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note (e.g., 'already minimal' or collision info)"
+    },
+    "context_specific": {
+      "type": "boolean",
+      "default": false,
+      "description": "True if this entry is specific to a context set (not universal)"
+    }
+  }
+}

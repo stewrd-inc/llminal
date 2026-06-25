@@ -1,0 +1,113 @@
+# Verb abbreviations
+# These replace common action verbs in LLMinal L1+ messages.
+# Token note: most abbreviations are token-neutral in modern tokenizers
+# (review=1tok, rv=1tok). The savings come from DELETION of filler words,
+# not from abbreviation. Abbreviations improve readability, not token count.
+# However, they DO save tokens in Mistral/SentencePiece where common
+# English words may be 2 tokens but short abbreviations are 1-2 tokens.
+
+- abbreviated: rv
+  expanded: review
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: impl
+  expanded: implement
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: rfac
+  expanded: refactor
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: srch
+  expanded: search
+  category: verb
+  level: 1
+  token_cost_gpt4: 2  # note: srch costs MORE than "search" in GPT-4
+  token_cost_mistral: 2
+
+- abbreviated: fix
+  expanded: fix
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+  note: already minimal — abbreviation is identity
+
+- abbreviated: tst
+  expanded: test
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: dep
+  expanded: deploy
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: mrg
+  expanded: merge
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: crt
+  expanded: create
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: del
+  expanded: delete
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: upd
+  expanded: update
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: rpt
+  expanded: report
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: anlz
+  expanded: analyze
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: doc
+  expanded: document
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- abbreviated: cfg
+  expanded: configure
+  category: verb
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2

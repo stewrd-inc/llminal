@@ -1,0 +1,26 @@
+# Context set: Deployment / DevOps
+
+task_classes:
+  - deploy
+
+common_abbreviations:
+  - abbrev: CI
+    expanded: continuous integration
+    context_specific: true
+  - abbrev: CD
+    expanded: continuous deployment
+    context_specific: true
+  - abbrev: cfg
+    expanded: configuration
+    context_specific: true
+    note: also in core verbs, same meaning
+
+deploy_fields:
+  - build_status
+  - test_status
+  - deployment_readiness
+  - environment
+
+context_fingerprint_items:
+  - "build_config"
+  - "deploy_target"

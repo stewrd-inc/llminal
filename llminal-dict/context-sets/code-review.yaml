@@ -1,0 +1,27 @@
+# Context set: Code review
+# Shared context for code review tasks.
+
+task_classes:
+  - code_review
+
+common_abbreviations:
+  - abbrev: CR
+    expanded: code review
+    context_specific: true
+  - abbrev: LGTM
+    expanded: looks good to me
+    context_specific: true
+  - abbrev: nits
+    expanded: nitpicks / minor issues
+    context_specific: true
+
+review_fields:
+  - bugs
+  - security
+  - performance
+  - style
+  - merge_readiness
+
+context_fingerprint_items:
+  - "files_under_review"
+  - "diff_baseline"

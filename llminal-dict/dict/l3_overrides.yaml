@@ -1,0 +1,71 @@
+# L3 single-character overrides
+# v0.2: ALL L3 FORMS ARE UNIQUE — no collisions.
+# v0.1 had b=bug+build and r=review+ready (collision). Fixed.
+# Each L3 form is a unique uppercase letter (1 token in GPT-4, 1-2 in Mistral).
+
+- l1_form: rv
+  l3_form: R
+  expanded: review
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: impl
+  l3_form: I
+  expanded: implement
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: fix
+  l3_form: F
+  expanded: fix
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: tst
+  l3_form: T
+  expanded: test
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: dep
+  l3_form: D
+  expanded: deploy
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: mrg
+  l3_form: M
+  expanded: merge
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: bug
+  l3_form: B
+  expanded: bug
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: err
+  l3_form: E
+  expanded: error
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: pass
+  l3_form: P
+  expanded: passing
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: rdy
+  l3_form: Y
+  expanded: ready
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- l1_form: build
+  l3_form: U
+  expanded: build
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+  note: U chosen to avoid collision with B=bug

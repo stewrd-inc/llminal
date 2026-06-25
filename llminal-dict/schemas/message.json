@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LLMinal Message",
+  "description": "Canonical representation of a LLMinal message",
+  "type": "object",
+  "required": ["level", "msg_type", "body", "sender_id", "receiver_id", "timestamp"],
+  "properties": {
+    "level": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "Compression level (0=full English, 1=abbreviated, 2=structured, 3=ultra-compressed)"
+    },
+    "msg_type": {
+      "type": "string",
+      "enum": ["?", "!", "~", "+", "=", "@"],
+      "description": "Message type: request, response, info, propose, define, ref"
+    },
+    "body": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Message body (format depends on level and type)"
+    },
+    "sender_id": {
+      "type": "string",
+      "description": "Agent identifier of sender"
+    },
+    "receiver_id": {
+      "type": "string",
+      "description": "Agent identifier of receiver"
+    },
+    "context_ref": {
+      "type": ["string", "null"],
+      "description": "Context fingerprint hash (required for L2+)"
+    },
+    "timestamp": {
+      "type": "number",
+      "description": "Unix timestamp of send time"
+    },
+    "token_count": {
+      "type": "integer",
+      "description": "Measured token count (filled by infra)"
+    },
+    "char_count": {
+      "type": "integer",
+      "description": "Character count of full message"
+    },
+    "english_equivalent": {
+      "type": "string",
+      "description": "Original English text (for fidelity comparison)"
+    },
+    "signature": {
+      "type": ["string", "null"],
+      "description": "Ed25519 or HMAC signature (v0.3+, from auth layer)"
+    }
+  }
+}

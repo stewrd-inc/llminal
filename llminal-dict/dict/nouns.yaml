@@ -1,0 +1,45 @@
+# Noun abbreviations
+# Object/concept abbreviations for LLMinal L1+ messages.
+
+- abbreviated: bug
+  expanded: bug
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+  note: already minimal
+
+- abbreviated: err
+  expanded: error
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: warn
+  expanded: warning
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: iss
+  expanded: issue
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: sec
+  expanded: security
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: perf
+  expanded: performance
+  category: noun
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2

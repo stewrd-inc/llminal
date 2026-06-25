@@ -1,0 +1,35 @@
+# Context set: Python development
+# Pre-built context bundle for Python development tasks.
+# Agents pull this to establish shared context for code_review/debug tasks
+# in Python projects.
+
+task_classes:
+  - code_review
+  - debug
+
+common_files:
+  - src/*.py
+  - tests/*.py
+  - pyproject.toml
+  - setup.cfg
+
+common_references:
+  - "PEP 8: Style Guide"
+  - "pytest: test framework"
+  - "mypy: type checking"
+
+shared_abbreviations:
+  - abbrev: py
+    expanded: python
+    context_specific: true
+  - abbrev: venv
+    expanded: virtual environment
+    context_specific: true
+  - abbrev: pip
+    expanded: pip installer
+    context_specific: true
+
+context_fingerprint_items:
+  - "files: src/*.py"
+  - "config: pyproject.toml"
+  - "test_framework: pytest"

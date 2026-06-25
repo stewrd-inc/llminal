@@ -1,0 +1,37 @@
+# Modifier abbreviations
+# Prepositions, adjectives, and temporal modifiers.
+
+- abbreviated: pre
+  expanded: before
+  category: modifier
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- abbreviated: post
+  expanded: after
+  category: modifier
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- abbreviated: rdy
+  expanded: ready
+  category: adjective
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 2
+
+- abbreviated: pass
+  expanded: passing
+  category: adjective
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1
+
+- abbreviated: fail
+  expanded: failing
+  category: adjective
+  level: 1
+  token_cost_gpt4: 1
+  token_cost_mistral: 1

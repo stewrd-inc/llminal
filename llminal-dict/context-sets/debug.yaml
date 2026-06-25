@@ -1,0 +1,25 @@
+# Context set: Debugging
+
+task_classes:
+  - debug
+
+common_abbreviations:
+  - abbrev: repro
+    expanded: reproduction steps
+    context_specific: true
+  - abbrev: stack
+    expanded: stack trace
+    context_specific: true
+  - abbrev: nil
+    expanded: null/None
+    context_specific: true
+
+debug_fields:
+  - root_cause
+  - location
+  - fix_proposal
+  - reproduction
+
+context_fingerprint_items:
+  - "error_log"
+  - "relevant_source_files"
